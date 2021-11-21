@@ -262,7 +262,7 @@ done
       
 #### 사용법 ex  
       
-      ex) data.txt
+   ex) data.txt
       
       |name|phone|birth|sex|score|
       |:------:|:--------:|:--------:|:--:|:---:|
