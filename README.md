@@ -275,9 +275,145 @@ done
       
 
 
+  ex)
+  
+  열(column)만 출력
+  
+  `awk '{ print $1 }' ./awk_test_file.txt`
+  ```
+  name
+  reakwon
+  sim
+  nara
+  yut
+  kim
+  nam
+  ```
+  
+`awk '{ print $1,$2 }' ./awk_test_file.txt`
+```
+name phone
+reakwon 010-1234-1234
+sim 010-4321-4321
+nara 010-1010-2020
+yut 010-2323-2323
+kim 010-1234-4321
+nam 010-4321-7890
+```  
+
+
+특정 패턴이 포함된 레코드 출력
+
+`awk '/rea/' ./awk_test_file.txt`
+
+`reakwon 010-1234-1234   1981-01-01      M       100`
+
+
+출력의 내용 첨가
+
+`awk '{ print ("name : " $1, ", "  "phone : " $2) }' ./awk_test_file.txt`
+```
+name : name , phone : phone
+name : reakwon , phone : 010-1234-1234
+name : sim , phone : 010-4321-4321
+name : nara , phone : 010-1010-2020
+name : yut , phone : 010-2323-2323
+name : kim , phone : 010-1234-4321
+name : nam , phone : 010-4321-7890
+```
+
+
+특정 레코드를 검색
+
+  * ~이상, ~이하의 레코트 출력
+
+`awk '{ if ( $5 >= 80 ) print ($0) }' ./awk_test_file.txt`
+
+or
+
+`awk '$5 >= 80 { print $0 }' ./awk_test_file.txt`
+```
+name    phone           birth           sex     score
+reakwon 010-1234-1234   1981-01-01      M       100
+sim     010-4321-4321   1999-09-09      F       88
+```
+
+
+  * M 데이터만 출력
+  
+`awk '{ if ( $4 == "M" ) print ($0) }' ./awk_test_file.txt`
+```
+reakwon 010-1234-1234   1981-01-01      M       100
+nara    010-1010-2020   1993-12-12      M       20
+kim     010-1234-4321   1977-07-17      M       69
+nam     010-4321-7890   1996-06-20      M       75
+```
+
+
+  * m이면서 80점인 레코드 출력
+  
+`awk '{ if ( $4 == "M" && $5 >= 80) print ($0) }' ./awk_test_file.txt`
+
+`reakwon 010-1234-1234   1981-01-01      M       100`
 
 
 
+  * 내장 함수
+      length, substr, tolower(소문자), toupper(대문자)
+      
+`awk '{ print ("name leng : " length($1), "substr(0,3) : " substr($1,0,3)) }' ./awk_test_file.txt`
+```
+name leng : 4 substr(0,3) : nam
+name leng : 7 substr(0,3) : rea
+name leng : 3 substr(0,3) : sim
+name leng : 4 substr(0,3) : nar
+name leng : 3 substr(0,3) : yut
+name leng : 3 substr(0,3) : kim
+name leng : 3 substr(0,3) : nam
+```
 
+    * 반복문
 
+```
+awk '{
+for(i=0;i<2;i++)
+ print( "for loop :" i "\t" $1, $2, $3)
+}' ./awk_test_file.txt
+```
+
+```
+for loop :0     name phone birth
+for loop :1     name phone birth
+for loop :0     reakwon 010-1234-1234 1981-01-01
+for loop :1     reakwon 010-1234-1234 1981-01-01
+for loop :0     sim 010-4321-4321 1999-09-09
+for loop :1     sim 010-4321-4321 1999-09-09
+for loop :0     nara 010-1010-2020 1993-12-12
+for loop :1     nara 010-1010-2020 1993-12-12
+for loop :0     yut 010-2323-2323 1988-10-10
+for loop :1     yut 010-2323-2323 1988-10-10
+for loop :0     kim 010-1234-4321 1977-07-17
+for loop :1     kim 010-1234-4321 1977-07-17
+for loop :0     nam 010-4321-7890 1996-06-20
+for loop :1     nam 010-4321-7890 1996-06-20
+```
+
+    * BEGIN, END 패턴과 변수사용
+```    
+    awk '
+ BEGIN {
+  sum = 0
+  cnt = -1
+ }
+
+ {
+  sum += $5
+  cnt++
+ }
+
+ END {
+  avg = sum/cnt
+  print ("sum :" sum ", average :" avg)
+ }' ./awk_test_file.txt
+```  
 
