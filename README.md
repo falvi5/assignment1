@@ -2,6 +2,7 @@
 Describe getopt, getopts, sed, and awk
 
 
+
 ## getopt
   getopt를 사용하는 이유
   
@@ -66,6 +67,7 @@ echo -------------
 echo "$@"
 ```
 
+
 ## getopts
 
 #### option 넣기
@@ -115,15 +117,28 @@ done
   argument는
   
     option: (Verbose mode) 
-    :option: (Silent mode) 로 사용한다 
+    :option: (Silent mode) 로 사용한다
+      - while getopts "a:hd" opt; do (a옵션은 argument(verbose mode)를 가지고, 나머지 옵션은 그냥 옵션만 가진다)
+      - while getopts ":a:hd" opt; do (a옵션은 argument(silent mode)를 가지고, 나머지 옵션은 그냥 옵션만 가진다)
     
     
-    |Verbose mode|Description|
-    |:---|:---|
-    |x|x|
-    |x|x|
+   Verbose mode
+      
+      - getopts "a:" 는 a 옵션에 콜론(:)을 붙여 인자를 요구케 함 (Verbose mode)
+      - 옵션은 $opt로 들어간다.
+      - argument는 $OPTARG로 들어간다.
+        예: -a "hello world"
+            $opt: 'a'
+            $OPTARG: "hello world"
+      
+  Silent mode
+  
+  
+![image](https://user-images.githubusercontent.com/94304874/142762491-22dc49a7-135e-4deb-8e40-f909cd6e8d7a.png)
 
     
+
+
 
 
 
